@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://example.com/eventhub-dev.schema.json",
+  "$id": "https://raw.githubusercontent.com/OpenLearningNet/local-node-eventhub-trigger/master/eventhub-dev.schema.json",
   "title": "EventHub Local Dev Settings",
   "description": "A configuration file for the EventHub Local Dev tools",
   "type": "object",
