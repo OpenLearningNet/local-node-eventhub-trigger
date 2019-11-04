@@ -70,6 +70,7 @@ const trigger = async (
     const response = await axios.post(localFunctionUrl(config), {
       function: func.name,
       messages: events.map((event) => event.body),
+      script: func.config.scriptFile,
     });
 
     console.log(
@@ -85,6 +86,7 @@ const trigger = async (
       await axios.post(localFunctionUrl(config), {
         function: func.name,
         message: event.body,
+        script: func.config.scriptFile,
       });
 
       console.log(

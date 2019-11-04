@@ -11,6 +11,7 @@ export const eventHubHttpTrigger = (config?: Options): AzureFunction => async (
 ): Promise<void> => {
   const data = req.body;
   const func = data.function;
+  const script = data.script;
   const messages = data.messages || [];
   const singleMessage = data.message;
 
@@ -33,7 +34,8 @@ export const eventHubHttpTrigger = (config?: Options): AzureFunction => async (
 
   try {
     if (allowedFunctions === undefined || func in allowedFunctions) {
-      const triggerModule = await import(`${importDir}${func}`);
+      const importPath = script || `${importDir}${func}`;
+      const triggerModule = await import(importPath);
       const trigger = triggerModule.default;
       if (singleMessage) {
         await trigger(context, singleMessage);
