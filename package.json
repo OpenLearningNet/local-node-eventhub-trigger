@@ -1,0 +1,47 @@
+{
+  "name": "azure-functions-eventhub-local-dev",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --w",
+    "start": "npm-run-all --parallel start:events watch",
+    "start:events": "nodemon --watch ./lib ./lib/runEvents.js",
+    "replay": "node ./lib/replay.js",
+    "is-pretty": "prettier -l '**/*'",
+    "prettify": "prettier --write '**/*'"
+  },
+  "description": "Local Development Tool for EventHub-Triggered Azure Functions (NodeJS)",
+  "devDependencies": {
+    "@types/dot-object": "^1.7.0",
+    "@types/node": "^12.11.6",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "@azure/functions": "^1.0.3",
+    "@types/ioredis": "^4.0.18",
+    "axios": "^0.19.0",
+    "core-js": "^3.3.3",
+    "dot-object": "^1.9.0",
+    "ioredis": "^4.14.1",
+    "nodemon": "^1.19.4",
+    "npm-run-all": "^4.1.5",
+    "regenerator-runtime": "^0.13.3",
+    "rhea": "^1.0.10",
+    "selfsigned": "^1.10.7",
+    "source-map-support": "^0.5.15",
+    "typescript": "^3.3.3"
+  },
+  "main": "lib/index.js",
+  "author": "David Collien",
+  "license": "ISC",
+  "bin": {
+    "eventhub-local-dev": "./lib/runEvents.js",
+    "eventhub-local-replay": "./lib/replay.js",
+    "eventhub-local-init": "./lib/init.js"
+  }
+}

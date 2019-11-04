@@ -1,0 +1,10 @@
+{
+    "$schema": "./eventhub-dev.schema.json",
+    "eventHubs": [
+        {
+            "name": "testhub",
+            "partitionIds": ["0", "1"]
+        }
+    ],
+    "triggerFunction": "EventHubTrigger"
+}
