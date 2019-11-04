@@ -1,2 +1,2 @@
-const { eventHubHttpTrigger } = require('azure-functions-eventhub-local-dev');
+const { eventHubHttpTrigger } = require('@openlearning/local-node-eventhub-trigger');
 module.exports = eventHubHttpTrigger();

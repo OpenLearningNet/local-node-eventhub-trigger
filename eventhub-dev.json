@@ -1,10 +1,10 @@
 {
-    "$schema": "https://raw.githubusercontent.com/OpenLearningNet/azure-functions-eventhub-local-dev/master/eventhub-dev.schema.json",
-    "eventHubs": [
-        {
-            "name": "testhub",
-            "partitionIds": ["0", "1"]
-        }
-    ],
-    "triggerFunction": "EventHubTrigger"
+  "$schema": "https://raw.githubusercontent.com/OpenLearningNet/azure-functions-eventhub-local-dev/master/eventhub-dev.schema.json",
+  "eventHubs": [
+    {
+      "name": "testhub",
+      "partitionIds": ["0", "1"]
+    }
+  ],
+  "triggerFunction": "EventHubTrigger"
 }

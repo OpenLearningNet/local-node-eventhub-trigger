@@ -1,58 +1,58 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://example.com/eventhub-dev.schema.json",
-    "title": "EventHub Local Dev Settings",
-    "description": "A configuration file for the EventHub Local Dev tools",
-    "type": "object",
-    "required": ["eventHubs", "triggerFunction"],
-    "properties": {
-      "cert": {
-        "description": "TLS Certificate",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/eventhub-dev.schema.json",
+  "title": "EventHub Local Dev Settings",
+  "description": "A configuration file for the EventHub Local Dev tools",
+  "type": "object",
+  "required": ["eventHubs", "triggerFunction"],
+  "properties": {
+    "cert": {
+      "description": "TLS Certificate",
+      "type": "string"
+    },
+    "key": {
+      "description": "TLS Private Key",
+      "type": "string"
+    },
+    "port": {
+      "description": "AMQP port",
+      "type": "number"
+    },
+    "functionPort": {
+      "description": "Azure Functions runtime port",
+      "type": "number"
+    },
+    "triggerFunction": {
+      "type": "string",
+      "description": "Azure HTTP Triggered function which is configured to run EvenHub local triggers"
+    },
+    "consumerGroups": {
+      "type": "array",
+      "description": "Array of consumer groups which will be triggered",
+      "items": {
         "type": "string"
-      },
-      "key": {
-        "description": "TLS Private Key",
-        "type": "string"
-      },
-      "port": {
-        "description": "AMQP port",
-        "type":"number"
-      },
-      "functionPort": {
-        "description": "Azure Functions runtime port",
-        "type":"number"
-      },
-      "triggerFunction": {
-        "type": "string",
-        "description": "Azure HTTP Triggered function which is configured to run EvenHub local triggers"
-      },
-      "consumerGroups": {
-        "type": "array",
-        "description": "Array of consumer groups which will be triggered",
-        "items": {
-          "type": "string"
-        }
-      },
-      "eventHubs": {
-        "description": "Array of EventHub configurations",
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": ["name", "partitionIds"],
-          "properties": {
-            "name": {
-              "description": "EventHub name",
+      }
+    },
+    "eventHubs": {
+      "description": "Array of EventHub configurations",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "partitionIds"],
+        "properties": {
+          "name": {
+            "description": "EventHub name",
+            "type": "string"
+          },
+          "partitionIds": {
+            "description": "Array of partition IDs used on this EventHub",
+            "type": "array",
+            "items": {
               "type": "string"
-            },
-            "partitionIds": {
-              "description": "Array of partition IDs used on this EventHub",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
             }
           }
         }
       }
     }
   }
+}

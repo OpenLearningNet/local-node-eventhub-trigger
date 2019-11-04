@@ -54,7 +54,9 @@ rl.question('Name of trigger function [default: EventHubTrigger]: ', (answer) =>
   if (fs.existsSync(configPath)) {
     console.error(`${green('eventhub-dev.json')} already exists.`);
   } else {
-    fs.copyFileSync(path.join(__dirname, '../eventhub-dev.json'), configPath);
+    const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../eventhub-dev.json')).toString());
+    config.triggerFunction = funcName;
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     console.log(`Config file ${'eventhub-dev.json'} added.`);
   }
 
