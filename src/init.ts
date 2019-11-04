@@ -15,7 +15,7 @@ try {
     throw new Error('Version 2.0 is required');
   }
 } catch (err) {
-  console.error("Invalid Azure Functions project.", err);
+  console.error("Invalid Azure Functions project.", err.message);
   process.exit(1);
 }
 
@@ -33,7 +33,7 @@ rl.question('Name of trigger function [default: EventHubTrigger]: ', (answer) =>
   try {
     fs.mkdirSync(funcPath);
   } catch (err) {
-    console.error('Unable to create function', err);
+    console.error('Unable to create function', err.message);
     process.exit(1);
   }
 
