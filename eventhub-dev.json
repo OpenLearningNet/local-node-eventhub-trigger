@@ -1,5 +1,5 @@
 {
-    "$schema": "./eventhub-dev.schema.json",
+    "$schema": "https://raw.githubusercontent.com/OpenLearningNet/azure-functions-eventhub-local-dev/master/eventhub-dev.schema.json",
     "eventHubs": [
         {
             "name": "testhub",
