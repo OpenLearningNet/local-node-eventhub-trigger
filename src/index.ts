@@ -1,4 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import path from 'path';
 
 interface Options {
   importDir?: string;
@@ -34,7 +35,7 @@ export const eventHubHttpTrigger = (config?: Options): AzureFunction => async (
 
   try {
     if (allowedFunctions === undefined || func in allowedFunctions) {
-      const importPath = script || `${importDir}${func}`;
+      const importPath = path.join(context.executionContext.functionDirectory, script) || `${importDir}${func}`;
       const triggerModule = await import(importPath);
       const trigger = triggerModule.default;
       if (singleMessage) {
