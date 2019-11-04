@@ -61,4 +61,5 @@ rl.question('Name of trigger function [default: EventHubTrigger]: ', (answer) =>
   }
 
   console.log('Done.');
+  process.exit();
 });
