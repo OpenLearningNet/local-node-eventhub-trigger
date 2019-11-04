@@ -10,6 +10,10 @@ This provides three scripts:
 1. `npx eventhub-local-dev`  Running a Redis Streams backed event queue with an AMQP interface. This interface emulates enough of the EventHubs protocol to use the NodeJS eventhubs library to query partition information and send events. The function runtime will not connect to this emulator so functions triggered by EventHub bindings will instead be triggered by an HTTP utility function (which exists only for local development).
 1. `npx eventhub-local-replay` Replaying a Redis Stream into EventHub triggered functions (this removes all consumer groups and re-adds them, starting from the beginning of the stream).
 
+## Notes:
+- This requires that your EventHub triggered functions are not provided a connection string (Azure Functions will not connect to this emulator). This will cause an error (connection string cannot be null) and deactivate these functions. These functions will instead be triggered by the HTTP trigger utility.
+- You may need to separate the connection string used for ingesting events (which will be this emulator on localhost) from the connection string used for triggering functions (not provided). These will be the same in production.
+
 ## Requirements:
 - NodeJS/Typescript Azure Functions runtime (v2.0)
 - Redis >v5 (Redis Streams) is running
