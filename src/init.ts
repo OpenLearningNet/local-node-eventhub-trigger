@@ -20,14 +20,23 @@ try {
 }
 
 console.log('An HTTP triggered function will be added to handle EventHub triggers for local development only.');
-rl.question('Name of trigger function [default: EventHubTrigger]: ', (answer) => {
-  let funcName;
+
+new Promise<string>((resolve) => {
+  rl.question('Name of trigger function [default: EventHubTrigger]: ', resolve);
+}).then((answer): Promise<[string, string]> => {
+  let funcName: string;
   if (!answer) {
     funcName = 'EventHubTrigger';
   } else {
     funcName = answer.trim();
   }
 
+  return new Promise<[string, string]>((resolve) => {
+    rl.question('Language:\n1. JavaScript\n2. TypeScript\n> ', (lang) => {
+      resolve([funcName, lang]);
+    });
+  });
+}).then(([funcName, lang]) => {
   const funcPath = path.join(initDir, funcName);
 
   try {
@@ -37,8 +46,25 @@ rl.question('Name of trigger function [default: EventHubTrigger]: ', (answer) =>
     process.exit(1);
   }
 
-  fs.copyFileSync(path.join(__dirname, '../EventHubTrigger', 'function.json'), path.join(funcPath, 'function.json'));
-  fs.copyFileSync(path.join(__dirname, '../EventHubTrigger', 'index.js'), path.join(funcPath, 'index.js'));
+  let trigPath: string;
+  let codeFile: string;
+  if (lang === '1') {
+    trigPath = '../EventHubTrigger';
+    codeFile = 'index.js';
+  } else {
+    trigPath = '../EventHubTriggerTs';
+    codeFile = 'index.ts';
+  }
+
+  fs.copyFileSync(path.join(__dirname, trigPath, 'function.json'), path.join(funcPath, 'function.json'));
+  fs.copyFileSync(path.join(__dirname, trigPath, codeFile), path.join(funcPath, 'index.js'));
+
+  if (lang === '2') {
+    const functionJsonText = fs.readFileSync(path.join(funcPath, 'function.json')).toString();
+    const replacedFunctionJson = functionJsonText.replace('EventHubTriggerTs', funcName);
+    fs.writeFileSync(path.join(funcPath, 'function.json'), replacedFunctionJson);
+  }
+
   console.log('Function', funcName, 'added.');
 
   const funcignorePath = path.join(initDir, '.funcignore');
