@@ -57,7 +57,7 @@ new Promise<string>((resolve) => {
   }
 
   fs.copyFileSync(path.join(__dirname, trigPath, 'function.json'), path.join(funcPath, 'function.json'));
-  fs.copyFileSync(path.join(__dirname, trigPath, codeFile), path.join(funcPath, 'index.js'));
+  fs.copyFileSync(path.join(__dirname, trigPath, codeFile), path.join(funcPath, codeFile));
 
   if (lang === '2') {
     const functionJsonText = fs.readFileSync(path.join(funcPath, 'function.json')).toString();
