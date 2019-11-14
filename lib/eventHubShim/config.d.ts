@@ -27,6 +27,14 @@ export interface Config {
      */
     functionPort?: number;
     /**
+     * Redis hostname
+     */
+    redisHostname?: string;
+    /**
+     * Redis port
+     */
+    redisPort?: number;
+    /**
      * Azure HTTP Triggered function which is configured to run EvenHub local triggers
      */
     triggerFunction: string;
