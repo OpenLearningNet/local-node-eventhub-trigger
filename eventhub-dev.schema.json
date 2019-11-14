@@ -30,6 +30,14 @@
       "description": "Azure Functions runtime port",
       "type": "number"
     },
+    "redisHostname": {
+      "description": "Redis hostname",
+      "type": "string"
+    },
+    "redisPort": {
+      "description": "Redis port",
+      "type": "number"
+    },
     "triggerFunction": {
       "type": "string",
       "description": "Azure HTTP Triggered function which is configured to run EvenHub local triggers"

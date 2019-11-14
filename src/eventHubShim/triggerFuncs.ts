@@ -12,9 +12,8 @@ const localAdminUrl = (config: Config) =>
     defaultFunctionPort}/admin/functions/`;
 
 const localFunctionUrl = (config: Config) =>
-  `http://${config.functionHostname}:${config.functionPort || defaultFunctionPort}/api/${
-    config.triggerFunction
-  }`;
+  `http://${config.functionHostname}:${config.functionPort ||
+    defaultFunctionPort}/api/${config.triggerFunction}`;
 
 let _functions: any[];
 async function retrieveFunctions(config: Config): Promise<any[]> {
@@ -112,11 +111,26 @@ export const triggerFunction = async (
   }
 
   try {
-    const func = await retrieveSubscription(config, hub, consumerGroup);
-    if (!func) {
-      throw new Error(
-        `No function is triggered by ${hub.name} with consumer group ${consumerGroup}`
-      );
+    let func: any;
+
+    while (!func) {
+      try {
+        console.log(
+          `Retrieving function info from ${green(
+            config.functionHostname as string
+          )}:${green((config.functionPort || defaultFunctionPort).toString())}`
+        );
+        func = await retrieveSubscription(config, hub, consumerGroup);
+        if (!func) {
+          throw new Error(
+            `No function is triggered by ${hub.name} with consumer group ${consumerGroup}`
+          );
+        }
+      } catch (err) {
+        console.error(red(err.message));
+        console.log('Retrying in 10s...');
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+      }
     }
 
     const cardinality = func.config.bindings.find(
