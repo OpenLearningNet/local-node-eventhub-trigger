@@ -1,6 +1,6 @@
 {
   "name": "@openlearning/local-node-eventhub-trigger",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "homepage": "https://github.com/OpenLearningNet/local-node-eventhub-trigger",
   "repository": {
     "type": "git",

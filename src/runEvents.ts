@@ -224,7 +224,7 @@ listener.on('clientError', function(error: any) {
 console.log(green(`AMQP Server started on ${config.port || defaultAmqpPort}.`));
 console.log('Ensure that EventHub events are sent to the connection string:');
 console.log(
-  '  Endpoint=sb://localhost;SharedAccessKeyName=name;SharedAccessKey=key'
+  `  Endpoint=sb://${config.hostname};SharedAccessKeyName=name;SharedAccessKey=key`
 );
 console.log('and EventHub triggers do not have a connection string.');
 console.log('');

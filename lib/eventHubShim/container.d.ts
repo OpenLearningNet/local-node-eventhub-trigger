@@ -1,5 +1,6 @@
 import { Message, Sender } from 'rhea';
 import { Hub } from './hub';
+import { Config } from './config';
 interface HubCollection {
     [name: string]: Hub;
 }
@@ -8,7 +9,8 @@ export declare class RemoteContainerFactory {
     containerInstances: {
         [id: string]: RemoteContainer;
     };
-    constructor(hubs: HubCollection);
+    config: Config;
+    constructor(hubs: HubCollection, config: Config);
     getContainer(id: string): RemoteContainer;
 }
 export declare class RemoteContainer {
@@ -20,7 +22,8 @@ export declare class RemoteContainer {
     };
     hubs: HubCollection;
     authenticatedAddresses: Set<string>;
-    constructor(id: string, hubs: HubCollection);
+    config: Config;
+    constructor(id: string, hubs: HubCollection, config: Config);
     authenticate(message: Message): Message;
     readState(message: Message): Message | null;
     authenticateEntity(address: string): void;
