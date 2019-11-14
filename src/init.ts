@@ -72,7 +72,7 @@ new Promise<string>((resolve) => {
   if (funcignore.has(funcName)) {
     console.error('.funcignore already contains', funcName);
   } else {
-    fs.appendFileSync(funcignorePath, funcName);
+    fs.appendFileSync(funcignorePath, `\n${funcName}\n`);
     console.log(funcName, 'added to .funcignore (used only for development)');
   }
 

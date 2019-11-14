@@ -11,7 +11,7 @@ This provides three scripts:
 1. `npx eventhub-local-replay` Replaying a Redis Stream into EventHub triggered functions (this removes all consumer groups and re-adds them, starting from the beginning of the stream).
 
 ## Notes:
-- This requires that your EventHub triggered functions are not provided a connection string (Azure Functions will not connect to this emulator). This will cause an error (connection string cannot be null) and deactivate these functions. These functions will instead be triggered by the HTTP trigger utility.
+- This requires that your EventHub triggered functions are not provided a connection string (Azure Functions will not connect to this emulator). This will cause an error (of the effect: `connection string cannot be null`) and deactivate these functions. These functions will instead be triggered by the HTTP trigger utility.
 - You may need to separate the connection string used for ingesting events (which will be this emulator on localhost) from the connection string used for triggering functions (not provided). These will be the same in production.
 
 ## Requirements:
@@ -20,11 +20,14 @@ This provides three scripts:
 
 # Example:
 
-1. Start an Azure Functions project: `func init`
+## Start an Azure Functions Project:
+1. Init the project with `func init`
 1. Create a function which will receive and ingest EventHub events: `func new` and select "Azure Event Hub trigger", e.g. called "EventConsumer"
-1. Create a function which will send events to EventHub: e.g. `func new` and select "HTTP trigger", called "EventApi"
+
+## Send Events to an EventHub
+1. Create a function (or other service) which will send events to EventHub: e.g. `func new` and select "HTTP trigger", called "EventApi"
 1. Install the azure eventhub library to send events to EventHub from your API: `npm install @azure/event-hubs`
-1. In "EventApi" call the EventHubs library:
+1. In "EventApi" (or other service) call the EventHubs library:
 ```
 import { EventHubClient } from '@azure/event-hubs';
 
@@ -34,12 +37,19 @@ const partitionId = "0";
 
 ...
 
-eventHubClient.send(
+await eventHubClient.send(
   {
     body: event,
   },
   partitionId
-).then(...);
+);
 ```
 
-This will send an event to the local eventhubs emulation, which will trigger the required "Azure Event Hub Trigger" functions.
+This will send an event to the local eventhubs emulation, which will trigger the required "Azure Event Hub Trigger" functions (e.g. "EventConsumer").
+
+## General Azure Function Setup Notes
+- `tsconfig.json` will likely require `"esModuleInterop": true`
+- `local.settings.json` should be set up with `"Values"`: 
+  - `"AzureWebJobsStorage": "UserDevelopmentStorage=true"` (which can use local Azure Storage emulation using `azurite`)
+- Other local development NodeJS environment variables required:
+  - `"NODE_TLS_REJECT_UNAUTHORIZED": "0"` (for sending to local self-signed TLS connections)
