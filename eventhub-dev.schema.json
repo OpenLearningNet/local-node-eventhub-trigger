@@ -14,9 +14,17 @@
       "description": "TLS Private Key",
       "type": "string"
     },
+    "hostname": {
+      "description": "AMQP hostname",
+      "type": "string"
+    },
     "port": {
       "description": "AMQP port",
       "type": "number"
+    },
+    "functionHostname": {
+      "description": "Azure Functions runtime hostname",
+      "type": "string"
     },
     "functionPort": {
       "description": "Azure Functions runtime port",

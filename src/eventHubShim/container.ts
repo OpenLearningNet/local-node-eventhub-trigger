@@ -1,5 +1,6 @@
 import { Message, Sender } from 'rhea';
 import { Hub } from './hub';
+import { Config } from './config';
 
 interface HubCollection {
   [name: string]: Hub;
@@ -10,14 +11,16 @@ export class RemoteContainerFactory {
   containerInstances: {
     [id: string]: RemoteContainer;
   };
-  constructor(hubs: HubCollection) {
+  config: Config;
+  constructor(hubs: HubCollection, config: Config) {
     this.hubs = hubs;
     this.containerInstances = {};
+    this.config = config;
   }
 
   getContainer(id: string): RemoteContainer {
     if (!(id in this.containerInstances)) {
-      this.containerInstances[id] = new RemoteContainer(id, this.hubs);
+      this.containerInstances[id] = new RemoteContainer(id, this.hubs, this.config);
     }
     return this.containerInstances[id];
   }
@@ -32,10 +35,12 @@ export class RemoteContainer {
   };
   hubs: HubCollection;
   authenticatedAddresses: Set<string>;
+  config: Config;
 
-  constructor(id: string, hubs: HubCollection) {
+  constructor(id: string, hubs: HubCollection, config: Config) {
     this.id = id;
     this.hubs = hubs;
+    this.config = config;
     this.authenticatedAddresses = new Set<string>();
 
     this.operationHandlers = {
@@ -90,7 +95,7 @@ export class RemoteContainer {
   authenticateEntity(address: string) {
     const isFullAddress = address.startsWith('sb://');
 
-    const fullAddress = isFullAddress ? address : `sb://localhost/${address}`;
+    const fullAddress = isFullAddress ? address : `sb://${this.config.hostname}/${address}`;
     if (!this.authenticatedAddresses.has(fullAddress)) {
       throw new Error(`Unauthenticated for ${fullAddress}`);
     }

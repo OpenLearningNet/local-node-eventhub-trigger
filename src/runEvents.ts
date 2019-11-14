@@ -78,6 +78,14 @@ if (!config.cert || !config.key || !config.ca) {
   }
 }
 
+// Set default hostname to localhost
+if (!config.hostname) {
+  config.hostname = 'localhost';
+}
+if (!config.functionHostname) {
+  config.functionHostname = 'localhost';
+}
+
 console.log(green('Starting EventHub Local Development Runtime for NodeJS'));
 console.log(
   'Ensure that your local.settings.json configuration specifies the Values:'
@@ -108,7 +116,7 @@ const hubs = config.eventHubs.reduce((hubLookup: { [name: string]: Hub }, hubCon
   return hubLookup;
 }, {});
 
-const containerFactory = new RemoteContainerFactory(hubs);
+const containerFactory = new RemoteContainerFactory(hubs, config);
 
 // Allow all SASL mechanisms
 interface Sasl {

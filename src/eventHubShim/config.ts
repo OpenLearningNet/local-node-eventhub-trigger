@@ -11,9 +11,17 @@ export interface Config {
      */
     key?: string;
     /**
+     * AMQP hostname
+     */
+    hostname?: string;
+    /**
      * AMQP port
      */
     port?: number;
+    /**
+     * Azure Functions runtime hostname
+     */
+    functionHostname?: string;
     /**
      * Azure Functions runtime port
      */

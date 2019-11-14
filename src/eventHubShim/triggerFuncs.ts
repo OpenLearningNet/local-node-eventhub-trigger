@@ -8,11 +8,11 @@ import { Event } from './connector';
 const defaultFunctionPort = 7071;
 
 const localAdminUrl = (config: Config) =>
-  `http://localhost:${config.functionPort ||
+  `http://${config.functionHostname}:${config.functionPort ||
     defaultFunctionPort}/admin/functions/`;
 
 const localFunctionUrl = (config: Config) =>
-  `http://localhost:${config.functionPort || defaultFunctionPort}/api/${
+  `http://${config.functionHostname}:${config.functionPort || defaultFunctionPort}/api/${
     config.triggerFunction
   }`;
 
