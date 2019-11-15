@@ -103,7 +103,7 @@ console.log('');
 // Connect to redis
 const redisConnector = new RedisConnector({
   port: config.redisPort || 6379,
-  hostname: config.redisHostname || "localhost"
+  host: config.redisHostname || "localhost"
 });
 
 // Initialise an EventHub
