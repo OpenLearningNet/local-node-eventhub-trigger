@@ -53,3 +53,8 @@ This will send an event to the local eventhubs emulation, which will trigger the
   - `"AzureWebJobsStorage": "UserDevelopmentStorage=true"` (which can use local Azure Storage emulation using `azurite`)
 - Other local development NodeJS environment variables required:
   - `"NODE_TLS_REJECT_UNAUTHORIZED": "0"` (for sending to local self-signed TLS connections)
+  
+## Replaying events
+To replay events locally, create a new consumer group for the new service, or use the provided `eventhub-local-replay` command to delete the current consumer groups and re-create them.
+
+In a production EventHub environment, a tool such as https://github.com/inoteq/azure-event-hub-replay may be used.
