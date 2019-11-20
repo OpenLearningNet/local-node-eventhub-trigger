@@ -1,6 +1,7 @@
-import { Message, Sender } from 'rhea';
+import { Message, Sender, message as amqpMessage } from 'rhea';
 import { Hub } from './hub';
 import { Config } from './config';
+import { decode } from 'punycode';
 
 interface HubCollection {
   [name: string]: Hub;
@@ -114,13 +115,33 @@ export class RemoteContainer {
 
       const handler = this.operationHandlers[address][op];
       return handler(message);
-    } else if (message.body.typecode && message.body.typecode === 0x75) {
+    } else if (message.body && message.body.typecode && message.body.typecode === 0x75) {
       const event = JSON.parse(message.body.content.toString());
 
       this.authenticateEntity(address);
       this.onEvent(address, event);
     } else {
-      console.error('Unprocessed message:', message, address);
+      try {
+        const decodedMessage = amqpMessage.decode(message as any);
+        console.log(decodedMessage, address, decodedMessage.body);
+
+        if (decodedMessage.body.typecode !== 0x75) {
+          throw new Error("Unknown Message");
+        }
+
+        const batchMessages = decodedMessage.body.content;
+
+        const events = Array.isArray(batchMessages) ? batchMessages : [batchMessages];
+
+        const eventsDecoded = events.map(amqpMessage.decode);
+
+        eventsDecoded.forEach((event) => {
+          const eventBody = JSON.parse(event.body.content.toString());
+          this.onEvent(address, eventBody);
+        });
+      } catch (err) {
+        console.error(err.message, message, address);
+      }
     }
 
     return null;
